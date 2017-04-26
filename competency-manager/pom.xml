@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>dist-learning</artifactId>
+        <groupId>ua.nure</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>competency-manager</artifactId>
+    <properties>
+        <orientdb.version>2.0-M3</orientdb.version>
+        <spring.data.commons.version>1.9.1.RELEASE</spring.data.commons.version>
+        <jooq.version>3.5.0</jooq.version>
+    </properties>
+
+    <dependencies>
+        <!--  spring boot -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-graph-core</artifactId>-->
+            <!--<version>1.0.0.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-orientdb-parent</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.orientechnologies</groupId>-->
+            <!--<artifactId>spring-boot-orientdb-autoconfigure</artifactId>-->
+            <!--<version>${orientdb.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.orientechnologies</groupId>-->
+            <!--<artifactId>orientdb-object</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>spring-data-orientdb-parent</artifactId>
+            <version>0.14rc1</version>
+        </dependency>
+    </dependencies>
+
+
+</project>
