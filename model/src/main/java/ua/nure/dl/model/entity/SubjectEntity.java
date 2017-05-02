@@ -1,12 +1,13 @@
-package ua.nure.dl.model;
+package ua.nure.dl.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,14 +18,14 @@ import javax.persistence.UniqueConstraint;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//@NodeEntity(label = "Subject")
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-})
-public class Competency {
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "name") }, name = "Subject")
+public class SubjectEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String name;
+//	@GraphId
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String name;
 }

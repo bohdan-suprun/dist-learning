@@ -18,12 +18,17 @@
         <dependency>
             <groupId>ua.nure</groupId>
             <artifactId>repository</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ua.nure</groupId>
+            <artifactId>graphRepository</artifactId>
+            <version>${parent.version}</version>
         </dependency>
     </dependencies>
 

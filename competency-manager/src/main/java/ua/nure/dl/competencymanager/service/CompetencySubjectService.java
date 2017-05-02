@@ -1,7 +1,7 @@
 package ua.nure.dl.competencymanager.service;
 
-import ua.nure.dl.model.Competency;
-import ua.nure.dl.model.Subject;
+import ua.nure.dl.model.dto.Competency;
+import ua.nure.dl.model.dto.Subject;
 
 import java.util.Collection;
 
@@ -14,7 +14,11 @@ public interface CompetencySubjectService {
 
     Collection<Subject> getAllSubjectsForCompetency(long competency);
 
-    boolean addRelation(Subject subject, Competency competency);
+    void addRelation(Subject subject, Competency competency);
+
+    void addRelation(Subject subject, long compId);
+
+    void addRelation(long subjectId, long competencyId);
 
     Competency addCompetency(Competency competency);
 

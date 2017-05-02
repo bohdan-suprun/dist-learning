@@ -1,23 +1,11 @@
 package ua.nure.dl.competencymanager.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ua.nure.dl.competencymanager.dto.CompetencyDto;
-import ua.nure.dl.competencymanager.dto.CompetencySubjectRelationDto;
-import ua.nure.dl.competencymanager.dto.SubjectDto;
-import ua.nure.dl.competencymanager.service.CompetencySubjectService;
-import ua.nure.dl.model.Competency;
-import ua.nure.dl.model.Subject;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
 
 /**
  * @author Bohdan_Suprun
@@ -25,13 +13,39 @@ import java.util.Collection;
 @RestControllerAdvice
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
-    @ResponseBody
-    public String handleException(Throwable cause, HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	private static final String DB_ERROR = "DB error occurred: %s";
+	private static final String JSON_ERROR = "{\"errorMessage\":\"%s\"}";
 
-        return String.format("Exception %s", cause.getMessage());
-    }
+	@org.springframework.web.bind.annotation.ExceptionHandler
+	@ResponseBody
+	public String handleException(Exception cause, HttpServletResponse response) {
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
+		cause.printStackTrace();
+
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		return String.format(JSON_ERROR, translateException(cause));
+	}
+
+	private String translateException(Exception cause) {
+		if (isConstraintViolationException(cause)) {
+			return String.format(DB_ERROR, "uniqness constraint violation");
+		}
+
+		if (isDbException(cause)) {
+			return String.format(DB_ERROR, "Undefined error");
+		}
+		
+		return "Undefined error";
+
+	}
+
+	private boolean isConstraintViolationException(Exception ex) {
+		return isDbException(ex) && ex.getMessage().contains("constraint");
+	}
+
+	private boolean isDbException(Exception ex) {
+		return ex instanceof DataIntegrityViolationException;
+	}
 
 }

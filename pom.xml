@@ -15,6 +15,7 @@
         <module>discovery-server</module>
         <module>competency-manager</module>
         <module>repository</module>
+        <module>graphRepository</module>
     </modules>
 
     <properties>
@@ -26,6 +27,8 @@
         <slf4jVersion>1.7.7</slf4jVersion>
         <jackson.library>2.7.5</jackson.library>
         <spring.boot>1.4.3.RELEASE</spring.boot>
+        <mysql.version>5.1.39</mysql.version>
+        <neo4j.version>1.1.0</neo4j.version>
     </properties>
 
     <dependencyManagement>
