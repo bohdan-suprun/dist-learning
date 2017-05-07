@@ -1,48 +1,48 @@
 package ua.nure.dl.repo.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
+import java.util.Map;
 
 @Component
 public class EntityToDtoConverter {
+    private static final Class<Object> DEFAULT_CONVERTER_KEY = Object.class;
 
-	public <Destination, Src> Destination convert(Src src, Class<Destination> target) {
-		try {
-			Destination dest = target.newInstance();
-			System.out.println("Dest is: " + dest);
-			Field[] destFields = dest.getClass().getDeclaredFields();
-			Field[] srcFields = src.getClass().getDeclaredFields();
-			
-			 for (Field srcField: srcFields) {
-				 for (Field destField: destFields) {
-					 if (isSameFields(srcField, destField)) {
-						 destField.setAccessible(true);
-						 srcField.setAccessible(true);
-						 
-						 destField.set(dest, srcField.get(src));
-					 }
-				 }
-			 }
-			 
-			return dest;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
-	}
-	
-	private boolean isSameFields(Field src, Field des) {
-		
-		if (src.getType() != des.getType()) {
-			return false;
-		}
-		
-		String srcFieldName = src.getName().toLowerCase();
-		String desFieldName = des.getName().toLowerCase();
-		
-		return srcFieldName.contains(desFieldName) || desFieldName.contains(srcFieldName);
-		
-	}
+    private Map<Class<?>, EntityToDtoClassConverter> dtoToConverterMap;
+    private Map<Class<?>, EntityToDtoClassConverter> entityToConverterMap;
 
+    @Autowired
+    protected void setConverters(EntityToDtoClassConverter... converters) {
+        for (EntityToDtoClassConverter converter : converters) {
+            dtoToConverterMap.put(converter.getDtoClass(), converter);
+            entityToConverterMap.put(converter.getEntityClass(), converter);
+        }
+
+    }
+
+    public <Destination, Src> Destination convert(Src src, Class<Destination> target) {
+        EntityToDtoClassConverter classConverter = getDefaultConverter();
+
+        if (isDto(target)) {
+            classConverter = dtoToConverterMap.get(target);
+        } else if (isEntity(target)) {
+            classConverter = entityToConverterMap.get(target);
+        }
+
+        return classConverter.convert(src, target);
+    }
+
+    private EntityToDtoClassConverter getDefaultConverter() {
+        return dtoToConverterMap.get(DEFAULT_CONVERTER_KEY);
+    }
+
+
+    private boolean isEntity(Class<?> targetClass) {
+        return entityToConverterMap.containsKey(targetClass);
+    }
+
+    private boolean isDto(Class<?> targetClass) {
+        return dtoToConverterMap.containsKey(targetClass);
+    }
 }

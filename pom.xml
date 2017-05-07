@@ -16,6 +16,7 @@
         <module>competency-manager</module>
         <module>repository</module>
         <module>graphRepository</module>
+        <module>subject-manager</module>
     </modules>
 
     <properties>
