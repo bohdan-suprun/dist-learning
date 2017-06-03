@@ -26,6 +26,14 @@ app.config(function ($routeProvider) {
             controller: 'ArticleController',
             templateUrl: 'views/article.html'
         })
+        .when('/tests', {
+            controller: 'TestController',
+            templateUrl: 'views/test.html'
+        })
+        .when('/test/:testId', {
+            controller: 'TestQuestionController',
+            templateUrl: 'views/test-question.html'
+        })
     ;
     //.otherwise({redirectTo: '/login'});
 });

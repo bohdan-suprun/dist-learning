@@ -64,9 +64,9 @@ app.service('UserService', function ($http, $cookieStore, $location) {
         var user = this.getCurrentUser();
         var url = $location.path();
 
-        var paths = ACCESS_MAP[user.role.toLowerCase()];
+        var paths = ACCESS_MAP[user.role.toLowerCase()].create;
         for (var index in paths) {
-            if (url.endsWith(paths[index])) {
+            if (url.includes(paths[index])) {
                 return true;
             }
         }
@@ -101,7 +101,7 @@ app.service('CompetencyService', function ($http, $location) {
         var url = "/dist-learning/competency/";
 
         if (user.role.toLowerCase() == USER_STUDENT) {
-            callback(getSubscriptions(user.email))
+            callback(this.getSubscriptions(user.email))
         } else {
             callback(COMPETENCY);
         }
@@ -117,13 +117,131 @@ app.service('CompetencyService', function ($http, $location) {
         $scope.competencyList.push({"name": name, "id": newId, "description": descr});
     };
 
-    function getSubscriptions(userEmail) {
-        for (var i in SUBSCRIPTIONS) {
-            if (SUBSCRIPTIONS[i].email == userEmail) {
-                return SUBSCRIPTIONS[i].competencies;
+    this.getSubscriptions =
+        function (userEmail) {
+            for (var i in SUBSCRIPTIONS) {
+                if (SUBSCRIPTIONS[i].email == userEmail) {
+                    return SUBSCRIPTIONS[i].competencies;
+                }
+            }
+
+            return [];
+        }
+});
+
+app.service('ArticleService', function ($http, $location, CompetencyService) {
+    this.loadArticles = function (user, callback) {
+        var url = "/dist-learning/article/";
+        var articles = [];
+        var subscriptions = CompetencyService.getSubscriptions(user.email);
+
+        for (var i in subscriptions) {
+            for (var j in ARTICLES) {
+                if (subscriptions[i].id == ARTICLES[j].targetCompetency) {
+                    articles.push(ARTICLES[j]);
+                }
             }
         }
 
-        return [];
-    }
+        callback(articles);
+        //$http.get(url)
+        //    .success(function (data) {
+        //        callback(data);
+        //    }).error(function () {
+        //    });
+    };
+
+    this.create = function (targetCompetency, articleText, title, user, $scope) {
+        var newId = Number($scope.articleList[$scope.articleList.length - 1].id) + 1;
+
+        $scope.articleList.push(
+            {
+                "targetCompetency": targetCompetency,
+                "id": newId,
+                "author": user.email,
+                "title": title,
+                "text": articleText
+            });
+    };
 });
+
+app.service('TestService', function ($http, $location) {
+    this.loadTests = function (user, callback) {
+        //var url = "/dist-learning/article/";
+        //
+        callback(TESTS);
+        //$http.get(url)
+        //    .success(function (data) {
+        //        callback(data);
+        //    }).error(function () {
+        //    });
+    };
+
+    this.create = function (subj, subjId, maxQstions, maxMark, $scope) {
+        var newId = Number($scope.testList[$scope.testList.length - 1].id) + 1;
+
+        $scope.testList.push(
+            {
+                "targetSubject": subjId,
+                "id": newId,
+                "title": subj,
+                "maxQuestions": maxQstions,
+                "maxMark": maxMark,
+                "questions": []
+            });
+    };
+});
+
+app.service('TestQuestionService', function ($http, $location) {
+    this.loadTestQuestions = function (user, testId, callback) {
+        //var url = "/dist-learning/article/";
+        //
+        var questions = [];
+        for (var i in TESTS) {
+            if (TESTS[i].id == testId) {
+                questions = TESTS[i].questions;
+            }
+        }
+        callback(questions);
+        //$http.get(url)
+        //    .success(function (data) {
+        //        callback(data);
+        //    }).error(function () {
+        //    });
+    };
+
+    this.create = function (questionText, correct, options, testId, $scope) {
+        var test;
+
+        for (var i in TESTS) {
+            if (TESTS[i].id == testId) {
+                test = TESTS[i];
+            }
+        }
+        var newId = Number(test.questions[test.questions.length - 1].id) + 1;
+        test.questions.push(
+            {
+                "id": newId,
+                "questionText": questionText,
+                "options": [{
+                    "id": 1,
+                    "correct": true,
+                    "text": correct
+                }, {
+                    "id": 2,
+                    "correct": false,
+                    "text": options[0]
+                }, {
+                    "id": 3,
+                    "correct": false,
+                    "text": options[1]
+                }, {
+                    "id": 3,
+                    "correct": false,
+                    "text": options[2]
+                }]
+            }
+        );
+    };
+})
+;

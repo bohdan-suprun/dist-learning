@@ -28,3 +28,7 @@ body, html {
     border-radius: 10px;
 
 }
+
+.correct {
+    background-color: green;
+}

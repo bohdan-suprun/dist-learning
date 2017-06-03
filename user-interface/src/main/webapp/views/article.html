@@ -1,6 +1,6 @@
 <ng-include src="'views/menu.html'"></ng-include>
 
-<div class="mainContainer" ng-controller="ArticleController as s" ng-init="s.init()">
+<div class="mainContainer" ng-controller="ArticleController as a" ng-init="a.init()">
     <!--<div class="container" ng-show="canCreate">-->
     <!--<form ng-submit="s.create(competency.name, competency.description)">-->
     <!--<div class="form-group">-->
@@ -16,42 +16,35 @@
     <!--</form>-->
     <!--</div>-->
 
-    <div class="container" ng-model="subjectList">
+    <div class="container" ng-model="articleList">
         <h5 align="center"> Find below articles from your subscriptions or
             <a href="" id="createArticleLink">create</a> a new article.
         </h5>
         <hr>
-        <!--<div id="editor">-->
-        <!---->
-        <!--</div>-->
-
-        <!--<button type="button" class="btn btn-info btn-lg"-->
-        <!--data-toggle="modal" data-target="#myModal">Create-->
-        <!--</button> new article</span>-->
-        <!--<ul>-->
-        <!--<li ng-repeat="competency in competencyList"><a-->
-        <!--href="#/competency/{{competency.id}}">{{competency.name}}</a></li>-->
-        <!--</ul>-->
-
         <!-- Modal content-->
         <div id="createArticleDiv" hidden="hidden">
+            <select ng-controller="CompetencyController" ng-model="$root.article.competency">
+                <option ng-repeat="c in competencyList" value="{{c.id}}">{{c.name}}</option>
+            </select><br>
+
+            <input required="required" ng-model="article.title" placeholder="Title">
             <div id="editor">
             </div>
-            <button id="saveArticle">Save</button>
+            <button id="saveArticle" ng-click="a.create($root.article.competency, article.title, 'editor')">Save</button>
             <script src="js/markup/trumbowyg.min.js"></script>
             <script>
                 $.trumbowyg.svgPath = 'js/markup/ui/icons.svg';
                 $('#editor').trumbowyg();
             </script>
         </div>
+
+        <ul>
+            <li ng-repeat="it in articleList"><a href="#/article/{{it.id}}">{{it.title}}</a></li>
+        </ul>
     </div>
     <script>
         $('#createArticleLink').on('click', function () {
             $('#createArticleDiv').slideToggle();
-        });
-
-        $('#saveArticle').on('click', function () {
-            alert($('#editor').trumbowyg('html'))
         });
     </script>
 </div><!-- /container -->

@@ -41,14 +41,14 @@ app.controller('SubjectController',
 
 app.controller('CompetencyController',
     function ($scope, UserService, CompetencyService) {
-        var loadCompetencies = function() {
+        this.loadCompetencies = function() {
             CompetencyService.loadCompetencies(UserService.getCurrentUser(), function (data) {
                 $scope.competencyList = data;
             });
         };
 
         this.init = function() {
-            loadCompetencies();
+            this.loadCompetencies();
             $scope.canCreate = UserService.canCreateOnThisPage();
         };
 
@@ -59,20 +59,68 @@ app.controller('CompetencyController',
 );
 
 app.controller('ArticleController',
-    function ($scope, UserService, CompetencyService) {
-        var loadCompetencies = function() {
-            CompetencyService.loadCompetencies(UserService.getCurrentUser(), function (data) {
-                $scope.competencyList = data;
+    function ($scope, UserService, ArticleService, CompetencyService) {
+        var loadArticles = function() {
+            ArticleService.loadArticles(UserService.getCurrentUser(), function (data) {
+                $scope.articleList = data;
             });
         };
 
         this.init = function() {
-            loadCompetencies();
-            $scope.canCreate = UserService.canCreateOnThisPage();
+            CompetencyService.loadCompetencies(UserService.getCurrentUser(), function (data) {
+                $scope.competencyList = data;
+            });
+            loadArticles();
         };
 
-        this.create = function(name, descr) {
-            CompetencyService.create(name, descr, $scope);
+        this.create = function(targetCompetency, title, editorId) {
+            var articleText = $('#' + editorId).trumbowyg('html');
+            ArticleService.create(targetCompetency, articleText, title, UserService.getCurrentUser(), $scope);
+        }
+    }
+);
+
+app.controller('TestController',
+    function ($scope, UserService, TestService, SubjectService) {
+
+        var loadTests = function() {
+            TestService.loadTests(UserService.getCurrentUser(), function (data) {
+                $scope.testList = data;
+            });
+        };
+
+        this.init = function() {
+            SubjectService.loadSubjects(UserService.getCurrentUser(), function (data) {
+                $scope.subjectList = data;
+            });
+
+            $scope.canCreate = UserService.canCreateOnThisPage();
+            loadTests();
+        };
+
+        this.create = function(test, subjId) {
+            TestService.create(test.subject, subjId, test.maxQuestion, test.maxMark, $scope);
+        }
+    }
+);
+
+app.controller('TestQuestionController',
+    function ($scope, $routeParams, UserService, TestQuestionService, SubjectService) {
+        var testId = $routeParams.testId;
+
+        var loadTestQuestions = function() {
+            TestQuestionService.loadTestQuestions(UserService.getCurrentUser(), testId, function (data) {
+                $scope.testQuestionList = data;
+            });
+        };
+
+        this.init = function() {
+            $scope.canCreate = UserService.canCreateOnThisPage();
+            loadTestQuestions();
+        };
+
+        this.create = function(questionText, correct, options) {
+            TestQuestionService.create(questionText, correct, options, testId, $scope);
         }
     }
 );
