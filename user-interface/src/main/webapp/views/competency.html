@@ -1,0 +1,25 @@
+<ng-include src="'views/menu.html'"></ng-include>
+
+<div class="mainContainer" ng-controller="CompetencyController as s" ng-init="s.init()">
+    <div class="container" ng-show="canCreate">
+        <form ng-submit="s.create(competency.name, competency.description)">
+            <div class="form-group">
+                <label for="name">Competency name:</label>
+                <input ng-model="competency.name" class="form-control" id="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="descr">Competency description:</label>
+                <textarea ng-model="competency.description" class="form-control" id="descr" placeholder="Describe new competency">
+                </textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Create</button>
+        </form>
+    </div>
+
+    <div class="container" ng-model="subjectList">
+        <ul>
+            <li ng-repeat="competency in competencyList"><a
+                    href="#/competency/{{competency.id}}">{{competency.name}}</a></li>
+        </ul>
+    </div>
+</div><!-- /container -->
