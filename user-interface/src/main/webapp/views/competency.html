@@ -9,7 +9,8 @@
             </div>
             <div class="form-group">
                 <label for="descr">Competency description:</label>
-                <textarea ng-model="competency.description" class="form-control" id="descr" placeholder="Describe new competency">
+                <textarea ng-model="competency.description" class="form-control" id="descr"
+                          placeholder="Describe new competency">
                 </textarea>
             </div>
             <button type="submit" class="btn btn-default">Create</button>
@@ -18,9 +19,8 @@
 
     <div class="container" ng-model="subjectList">
         <ul>
-            <li ng-repeat="competency in competencyList"> {{competency.name}}
-                <!--<a-->
-                    <!--href="#/competency/{{competency.id}}">{{competency.name}}</a></li>-->
+            <li ng-repeat="competency in competencyList">
+                <a href="#/competency/{{competency.id}}">{{competency.name}}</a></li>
         </ul>
     </div>
 </div><!-- /container -->

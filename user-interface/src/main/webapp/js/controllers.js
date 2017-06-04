@@ -59,7 +59,7 @@ app.controller('CompetencyController',
 );
 
 app.controller('ArticleController',
-    function ($scope, UserService, ArticleService, CompetencyService) {
+    function ($scope, UserService, ArticleService, CompetencyService, $rootScope) {
         var loadArticles = function() {
             ArticleService.loadArticles(UserService.getCurrentUser(), function (data) {
                 $scope.articleList = data;
@@ -76,6 +76,9 @@ app.controller('ArticleController',
         this.create = function(targetCompetency, title, editorId) {
             var articleText = $('#' + editorId).trumbowyg('html');
             ArticleService.create(targetCompetency, articleText, title, UserService.getCurrentUser(), $scope);
+            $rootScope.article.competency = null;
+            $scope.article =null;
+            $('#' + editorId).trumbowyg('html', '');
         }
     }
 );
@@ -119,8 +122,15 @@ app.controller('TestQuestionController',
             loadTestQuestions();
         };
 
-        this.create = function(questionText, correct, options) {
-            TestQuestionService.create(questionText, correct, options, testId, $scope);
+        this.create = function(testQuestion) {
+            var options = [testQuestion.firstIncorrect, testQuestion.secondIncorrect, testQuestion.thirdIncorrect];
+            TestQuestionService.create(testQuestion.question, testQuestion.correctAnswer, options, testId, $scope);
+
+            testQuestion.question = null;
+            testQuestion.correctAnswer = null;
+            testQuestion.firstIncorrect = null;
+            testQuestion.secondIncorrect = null;
+            testQuestion.thirdIncorrect = null;
         }
     }
 );

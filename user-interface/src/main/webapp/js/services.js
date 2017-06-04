@@ -66,7 +66,7 @@ app.service('UserService', function ($http, $cookieStore, $location) {
 
         var paths = ACCESS_MAP[user.role.toLowerCase()].create;
         for (var index in paths) {
-            if (url.includes(paths[index])) {
+            if (url.startsWith('/' + paths[index])) {
                 return true;
             }
         }

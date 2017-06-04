@@ -1,36 +1,40 @@
 <ng-include src="'views/menu.html'"></ng-include>
 
 <div class="mainContainer" ng-controller="TestQuestionController as tqc" ng-init="tqc.init()">
-    <div class="container" ng-show="canCreate">
-        <form ng-submit="tc.create(test, $root.subject.subjId)">
-            <div class="form-group">
-                <label for="subject">Test subject:</label>
-                <input ng-model="test.subject" class="form-control" id="subject">
-            </div>
-            <div class="form-group">
-                <label for="subjectName">Target subject:</label>
-                <select id="subjectName" ng-controller="SubjectController" ng-model="$root.subject.subjId">
-                    <option ng-repeat="c in subjectList" value="{{c.id}}">{{c.name}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="maxMark">Test maximum mark:</label>
-                <input ng-model="test.maxMark" class="form-control" id="maxMark">
-            </div>
 
+    <div class="container" ng-show="canCreate">
+        <form ng-submit="tqc.create(testQuestion)">
             <div class="form-group">
-                <label for="questionNumber">Test questions number:</label>
-                <input ng-model="test.maxQuestion" class="form-control" id="questionNumber">
+                <label for="question">Question:</label>
+                <input ng-model="testQuestion.question" class="form-control" id="question">
             </div>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Answer options</legend>
+                <div class="form-group">
+                    <label for="correctAnswer">Correct answer:</label>
+                    <input ng-model="testQuestion.correctAnswer" class="form-control" id="correctAnswer">
+                </div>
+                <div class="form-group">
+                    <label for="firstIncorrect">First incorrect option:</label>
+                    <input ng-model="testQuestion.firstIncorrect" class="form-control" id="firstIncorrect">
+                </div>
+                <div class="form-group">
+                    <label for="secondIncorrect">Second incorrect option:</label>
+                    <input ng-model="testQuestion.secondIncorrect" class="form-control" id="secondIncorrect">
+                </div>
+                <div class="form-group">
+                    <label for="thirdIncorrect">Third incorrect option:</label>
+                    <input ng-model="testQuestion.thirdIncorrect" class="form-control" id="thirdIncorrect">
+                </div>
+            </fieldset>
             <button type="submit" class="btn btn-default">Create</button>
         </form>
-    </div>
+        <hr/>
 
-    <div class="container" ng-model="testQuestionList">
+        <div class="container" ng-model="testQuestionList">
 
-        <div ng-repeat="q in testQuestionList">
             <ol>
-                <li>
+                <li ng-repeat="q in testQuestionList">
                     <span>{{q.questionText}}</span>
                     <ul ng-repeat="op in q.options">
                         <li ng-if="op.correct" class="correct">{{op.text}}</li>
@@ -39,9 +43,11 @@
 
                 </li>
             </ol>
+
         </div>
-
     </div>
-
+    <div class="container">
+        Tests
+    </div>
 </div>
 </div><!-- /container -->

@@ -45,7 +45,7 @@ var ACCESS_MAP = {
         "create": ['article']
     },
     "teacher": {
-        "create": ['subjects', 'tests', 'subj-comp']
+        "create": ['subjects', 'tests', 'subj-comp', 'test']
     },
     "admin": {
         "create": ["competency", "subjects", 'subj-comp']
