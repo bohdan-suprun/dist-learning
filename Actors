@@ -21,6 +21,48 @@ Teacher, Student
   - Sign-up
 
 MODULES
+  - Competency-manager - Competency-subject mapping, creating subject/competency
+        TODO: Add hidding a subject or a competency
+  - Subject-manager
+        1) Add an article to a subject. The Article should have:
+          * Title
+          * Subject
+          * Text (html or custom markup?)
+          * Hidden
+          * Author
+          * Raiting?
+       2) Read an article
+       3) Hide an article by the owner
+       4) Upload ilustartion?
+  - Test-manager
+        1) Create a test for the article, a test should have:
+            * Max mark;
+            * Success rate;
+            * Questions;
+            * Title;
+            * Description (optional);
+            * number of questions to ask;
+        2) Update test;
+        3) Add a question to a test, question should have:
+            * question text;
+            * type (for now: one option)
+            * answer options
+            * correct answer
+        Answer option should have:
+            * Answer text;
+        4) Get list of question types;
+        4) Start testing:
+            - If test already passed - return error message;
+            - Return list of questions
+        6) Submit answers and save mark if this test was passed, or error message, block for a time ability to start this test;
+        7) Get list of marks for a STUDENT user;
+            
+  - User-manager + security:
+        1) Sign-up as student or teacher;
+        2) Log-in, Log-out;
+        3) Approve a teacher;
+        4) Block a user;
+   - Deploy - contains UI + Spring Boot
 
 MICROSERVICES (MODUES):
   - Subject
