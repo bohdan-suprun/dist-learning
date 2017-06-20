@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author Bohdan_Suprun
@@ -20,14 +21,13 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "TestQuestion")
-public class TestQuestionOptionEntity {
+public class TestQuestionOptionEntity implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sequence;
-    @Id
     @ManyToOne
     @JoinColumn(name = "testQuestionId", nullable = false)
-    private TestQuestionEntity question;
+    private TestQuestionEntity testQuestionOption;
 
     private String text;
     private Boolean correct;

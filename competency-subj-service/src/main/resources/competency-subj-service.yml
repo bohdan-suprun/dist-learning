@@ -1,6 +1,13 @@
 spring:
   application:
      name: competency-subject-service
+  jpa:
+      hibernate:
+          ddl-auto: create
+  datasource:
+      url: jdbc:mysql://localhost/distlearning
+      username: root
+      password: root
 
 server:
   port: 8010

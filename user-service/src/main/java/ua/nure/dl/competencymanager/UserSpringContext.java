@@ -1,7 +1,6 @@
 package ua.nure.dl.competencymanager;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -10,7 +9,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import ua.nure.dl.model.entity.RoleEntity;
 import ua.nure.dl.model.util.EntityToDtoConverter;
-import ua.nure.dl.repo.RepoSpringContext;
 import ua.nure.dl.repo.cache.UserRoleCache;
 import ua.nure.dl.repo.cache.UserRoleCacheImpl;
 
@@ -24,11 +22,11 @@ import java.util.Set;
 @EnableSwagger2
 public class UserSpringContext {
 
-    public static void main(String[] args) {
-        new SpringApplicationBuilder()
-                .sources(UserSpringContext.class, RepoSpringContext.class)
-                .run(args);
-    }
+//    public static void main(String[] args) {
+//        new SpringApplicationBuilder()
+//                .sources(UserSpringContext.class, RepoSpringContext.class)
+//                .run(args);
+//    }
 
     @Bean
     public Docket api() {

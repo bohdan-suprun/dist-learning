@@ -18,11 +18,11 @@ import ua.nure.dl.repo.RepoSpringContext;
 @EnableSwagger2
 public class CompetencySpringContext {
 
-    public static void main(String[] args) {
-        new SpringApplicationBuilder()
-                .sources(CompetencySpringContext.class, RepoSpringContext.class)
-                .run(args);
-    }
+//    public static void main(String[] args) {
+//        new SpringApplicationBuilder()
+//                .sources(CompetencySpringContext.class, RepoSpringContext.class)
+//                .run(args);
+//    }
 
     @Bean
     public Docket api() {

@@ -1,0 +1,32 @@
+zuul:
+  host:
+     connect-timeout-millis: 10000
+     socket-timeout-millis: 60000
+  routes:
+    competency-subj-service:
+          path: /cs/**
+          serviceId: competency-subject-service
+    test-service:
+          path: /ts/**
+          serviceId: test-service
+    user-service:
+          path: /us/**
+          serviceId: user-service
+server:
+    port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
+    
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 60000

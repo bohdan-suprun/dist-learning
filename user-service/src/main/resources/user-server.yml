@@ -1,6 +1,14 @@
 spring:
   application:
      name: user-service
+  jpa:
+      hibernate:
+          ddl-auto: create
+  datasource:
+      url: jdbc:mysql://localhost/distlearning
+      username: root
+      password: root
+
 
 server:
   port: 8030

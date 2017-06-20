@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -22,11 +23,10 @@ import java.util.Collection;
 @NoArgsConstructor
 @Entity
 @Table(name = "TestQuestion")
-public class TestQuestionEntity {
+public class TestQuestionEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Id
     @ManyToOne
     @JoinColumn(name = "testId", nullable = false)
     private TestEntity test;
